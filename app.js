@@ -49,3 +49,35 @@ window.addEventListener('scroll', function () {
 });
 
 // ********* smooth scroll *********
+const scrollLinks = document.querySelectorAll('.scroll-link');
+
+scrollLinks.forEach(function (link) {
+  link.addEventListener('click', function (e) {
+    // prevent the default scroll
+    e.preventDefault();
+    // navigate to the specific spot
+    const id = e.currentTarget.getAttribute('href').slice(1);
+    const element = document.getElementById(id);
+    // calculate the heights
+    const navHeight = navbar.getBoundingClientRect().height;
+    const containerHeight = linksContainer.getBoundingClientRect().height;
+    const fixedNav = navbar.classList.contains('fixed-nav');
+    let position = element.offsetTop - navHeight;
+
+    // when the navbar is not fixed
+    if (!fixedNav) {
+      position = position - navHeight;
+    }
+    // for mobile and links are opened
+    if (navHeight > 82) {
+      position = position + containerHeight;
+    }
+    window.scrollTo({
+      left: 0,
+      top: position,
+    });
+
+    // close the links
+    linksContainer.style.height = 0;
+  });
+});
